@@ -1,8 +1,8 @@
-import express from "express";
-import { createRoom } from "../roomController";
+import express from 'express'
+import { createRoom } from '../roomController'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/create", createRoom);
+router.get('/create', createRoom)
 
-export default router;
+export default router
