@@ -16,6 +16,9 @@ const io = new Server(httpServer, {
   },
 });
 
+// initializing socket handler
+initializeSocket(io);
+
 const PORT = process.env.PORT || 3002;
 
 httpServer.listen(PORT, () => {
