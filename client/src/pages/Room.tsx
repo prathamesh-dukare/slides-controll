@@ -25,13 +25,24 @@ export default function Room() {
 
     initializeRoom();
 
-    // Cleanup function
     return () => {
       if (socket) {
         socket.disconnect();
       }
     };
   }, [roomId]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      return confirm("Are you sure? Your session will be lost if you refresh.");
+    };
+
+    window.onbeforeunload = handleBeforeUnload;
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, []);
 
   return (
     <Layout>

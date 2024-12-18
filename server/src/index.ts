@@ -9,17 +9,14 @@ import { initializeSocket } from './socket/socketHandler'
 const app = express()
 const httpServer = createServer(app)
 
-// configure cors
 const corsOptions = {
   origin:
     process.env.NODE_ENV === 'production'
-      ? process.env.CLIENT_URL // You'll need to set this in production
-      : 'http://localhost:5173', // Development React frontend URL
+      ? process.env.CLIENT_URL
+      : 'http://localhost:5173',
   methods: ['GET', 'POST'],
-  credentials: true, // If you're using cookies/sessions
 }
 
-// Move cors middleware before route handlers
 app.use(cors(corsOptions))
 app.use(express.json())
 
@@ -40,7 +37,7 @@ const strictLimiter = rateLimit({
 
 app.use(limiter)
 
-// strict limiter to room routes
+// strict limiter
 app.use('/api/v1/room', strictLimiter, roomRoutes)
 
 const io = new Server(httpServer, {
@@ -50,7 +47,7 @@ const io = new Server(httpServer, {
   },
 })
 
-// initializing socket handler
+// init socket handler
 initializeSocket(io)
 
 const PORT = process.env.PORT || 3002

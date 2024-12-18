@@ -14,7 +14,6 @@ export function SocketProvider({ children }: SocketProviderProps) {
   const [roomId, setRoomId] = useState("");
   const [connectionStatus, setConnectionStatus] = useState("");
 
-  // Create room - only generates room ID
   const createRoom = async (): Promise<string | undefined> => {
     try {
       const response = await fetch(`${API_SERVER_URL}/create`);
@@ -25,12 +24,11 @@ export function SocketProvider({ children }: SocketProviderProps) {
     }
   };
 
-  // Connect to room
   const connectToRoom = (roomId: string, type: "host") => {
     if (!roomId) return;
     console.log("Connecting to room", roomId);
 
-    // Cleanup previous socket connection if exists
+    // cleanup old
     if (socket) {
       socket.disconnect();
     }
@@ -39,28 +37,51 @@ export function SocketProvider({ children }: SocketProviderProps) {
     setSocket(newSocket);
     setRoomId(roomId);
 
-    // Setup event listeners
     const setupSocketListeners = (socket: Socket) => {
       socket.emit("join-room", { roomId, type });
 
-      socket.on("room-joined", (data) => {
-        setConnectionStatus(`Joined as ${data.role}. Room ID: ${roomId}`);
+      const events = [
+        [
+          "room-joined",
+          (data: any) => {
+            setConnectionStatus(`Joined as ${data.role}. Room ID: ${roomId}`);
+          },
+        ],
+        [
+          "client-connected",
+          () => {
+            setConnectionStatus("Client connected to the room");
+          },
+        ],
+        [
+          "room-error",
+          (error: any) => {
+            console.error("Room error:", error);
+            setConnectionStatus(`Error: ${error}`);
+          },
+        ],
+      ] as const;
+
+      events.forEach(([event, handler]) => {
+        socket.on(event, handler);
       });
 
-      socket.on("client-connected", () => {
-        setConnectionStatus("Client connected to the room");
-      });
+      return () => {
+        events.forEach(([event, handler]) => {
+          socket.off(event, handler);
+        });
+      };
     };
 
-    setupSocketListeners(newSocket);
+    const cleanup = setupSocketListeners(newSocket);
 
-    // Return cleanup function
+    // combined cleanup
     return () => {
+      cleanup();
       newSocket.disconnect();
     };
   };
 
-  // Send command
   const sendCommand = (command: string) => {
     if (socket && roomId) {
       socket.emit("send-command", { roomId, command });
