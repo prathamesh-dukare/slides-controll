@@ -9,6 +9,13 @@ interface SocketProviderProps {
   children: ReactNode;
 }
 
+export enum SendCommand {
+  UP = "up",
+  DOWN = "down",
+  LEFT = "left",
+  RIGHT = "right",
+}
+
 export function SocketProvider({ children }: SocketProviderProps) {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [roomId, setRoomId] = useState("");
@@ -82,7 +89,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
     };
   };
 
-  const sendCommand = (command: string) => {
+  const sendCommand = (command: SendCommand) => {
     if (socket && roomId) {
       socket.emit("send-command", { roomId, command });
     }
