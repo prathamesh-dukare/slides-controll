@@ -1,11 +1,11 @@
 import {
-  Accordion,
-  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+  AccordionContent,
+  Accordion,
+} from "./ui/Accordion";
 
-export default function Acc() {
+export default function AccordionComponent() {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
