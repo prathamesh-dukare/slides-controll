@@ -1,26 +1,18 @@
-"use client";
-
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-
+import { Check, ChevronsUpDown, Command } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { Button } from "./ui/Button";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import {
-  Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "./Button";
+} from "./ui/command";
 
-const controllerTypes = [
+export const controllerTypes = [
   {
     value: "buttons",
     label: "Buttons",
@@ -31,9 +23,14 @@ const controllerTypes = [
   },
 ];
 
-export function ControllerCombobox() {
+export function ControllerCombobox({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(controllerTypes[0].value);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -54,7 +51,7 @@ export function ControllerCombobox() {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Find controller" />
           <CommandList>
             <CommandEmpty>No controller type found.</CommandEmpty>
             <CommandGroup>
@@ -63,7 +60,9 @@ export function ControllerCombobox() {
                   key={controllerType.value}
                   value={controllerType.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    console.log("currentValue", currentValue);
+                    console.log("value", value);
+                    onChange(currentValue === value ? value : currentValue);
                     setOpen(false);
                   }}
                 >

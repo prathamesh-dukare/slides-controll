@@ -51,7 +51,7 @@ export function SocketProvider({ children }: SocketProviderProps) {
         [
           "room-joined",
           (data: any) => {
-            setConnectionStatus(`Joined as ${data.role}. Room ID: ${roomId}`);
+            setConnectionStatus(`Joined as ${data.role}`);
           },
         ],
         [
