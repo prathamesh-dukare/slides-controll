@@ -1,20 +1,23 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
-// const { keyboard, Key } = require("@nut-tree-fork/nut-js");
-
-// contextBridge.exposeInMainWorld("keyboard", {
-//   pressKey: async (key) => await keyboard.pressKey(key),
-//   releaseKey: async (key) => await keyboard.releaseKey(key),
-// });
-
 contextBridge.exposeInMainWorld("versions", {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
-  ping: () => ipcRenderer.invoke("ping"),
-  // we can also expose variables, not just functions
 });
 
-contextBridge.exposeInMainWorld("roomId", {
-  roomId: (roomId) => ipcRenderer.send("roomId", roomId),
+contextBridge.exposeInMainWorld("roomActions", {
+  joinRoom: (roomId) => ipcRenderer.invoke("joinRoom", roomId),
+  quitRoom: () => ipcRenderer.invoke("quitRoom"),
+});
+
+contextBridge.exposeInMainWorld("roomResponse", {
+  onRoomError: (callback) =>
+    ipcRenderer.on("roomError", (_event, data) => callback(data)),
+  removeRoomError: (callback) =>
+    ipcRenderer.removeListener("roomError", callback),
+  onRoomJoined: (callback) =>
+    ipcRenderer.on("roomJoined", (_event, statusText) => callback(statusText)),
+  // removeRoomJoined: (callback) =>
+  //   ipcRenderer.removeListener("room-joined", callback),
 });
