@@ -4,9 +4,10 @@ const path = require("node:path");
 const { io } = require("socket.io-client");
 
 let socket;
+let mainWindow;
 
 const createWindow = () => {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -14,36 +15,7 @@ const createWindow = () => {
     },
   });
 
-  // Connect to signaling server
-  socket = io("http://localhost:3002", {
-    reconnection: true,
-  });
-
-  // Join room as host
-  socket.emit("join-room", {
-    roomId: "7b1f03",
-    type: "client",
-  });
-
-  // Listen for commands
-  socket.on("device-command", async (command) => {
-    console.log(command, "received");
-    switch (command) {
-      case "left":
-        await keyboard.pressKey(Key.Right);
-        await keyboard.releaseKey(Key.Right);
-        console.log("left");
-
-        break;
-      case "right":
-        await keyboard.pressKey(Key.Right);
-        await keyboard.releaseKey(Key.Right);
-        console.log("right");
-        break;
-    }
-  });
-
-  win.loadFile("index.html");
+  mainWindow.loadFile("index.html");
 };
 
 app.whenReady().then(() => {
@@ -64,3 +36,32 @@ app.on("window-all-closed", () => {
 });
 
 console.log("Window created");
+
+// Handle room ID from renderer
+ipcMain.on("roomId", (event, roomId) => {
+  // Connect to signaling server
+  socket = io("http://localhost:3002", {
+    reconnection: true,
+  });
+
+  // Join room as host
+  socket.emit("join-room", {
+    roomId: roomId,
+    type: "client",
+  });
+
+  // Listen for commands
+  socket.on("device-command", async (command) => {
+    console.log(command, "received");
+    switch (command) {
+      case "left":
+        await keyboard.pressKey(Key.Left);
+        await keyboard.releaseKey(Key.Left);
+        break;
+      case "right":
+        await keyboard.pressKey(Key.Right);
+        await keyboard.releaseKey(Key.Right);
+        break;
+    }
+  });
+});

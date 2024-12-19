@@ -1,27 +1,26 @@
 const information = document.getElementById("info");
-const roomIdInput = document.getElementById("roomId");
-const joinRoomButton = document.getElementById("joinRoom");
+const sessionKeyInput = document.getElementById("sessionKey");
+const joinSessionButton = document.getElementById("joinSession");
+const joinScreen = document.getElementById("join-screen");
+const successScreen = document.getElementById("success-screen");
 
-joinRoomButton.addEventListener("click", () => {
-  const roomId = roomIdInput.value;
-  window.roomId.roomId(roomId);
+joinSessionButton.addEventListener("click", () => {
+  const sessionKey = sessionKeyInput.value.trim();
+  if (sessionKey) {
+    // Send the session key to main process
+    window.roomId.roomId(sessionKey);
+
+    // Hide join screen and show success screen
+    joinScreen.style.display = "none";
+    successScreen.style.display = "flex";
+  }
 });
 
 information.innerText = `This app is using Chrome (v${versions.chrome()}), Node.js (v${versions.node()}), and Electron (v${versions.electron()})`;
 
 const func = async () => {
   const response = await window.versions.ping();
-  console.log(response); // prints out 'pong'
+  console.log(response);
 };
 
 func();
-
-// console.log(keyboard);
-
-// setInterval(async () => {
-//   console.log("Right arrow key pressed.1");
-//   await keyboard.pressKey(Key.Right);
-//   await keyboard.releaseKey(Key.Right);
-
-//   console.log("Right arrow key pressed.");
-// }, 2000);

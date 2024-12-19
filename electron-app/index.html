@@ -1,22 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
-    <title>Hello from Electron renderer!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Controller</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #4ade80;
+            border-radius: 50%;
+        }
+
+        .status-text {
+            color: #333;
+        }
+
+        .message {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .sub-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .encouragement {
+            font-size: 18px;
+            color: #666;
+        }
+
+        #info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            width: 300px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #94a3b8;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4ade80;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #22c55e;
+        }
+
+        #join-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #success-screen {
+            display: none;
+        }
+
+        .website-link {
+            color: #4ade80;
+            text-decoration: none;
+        }
+
+        .website-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Hello from Electron renderer!</h1>
+    <div id="join-screen">
+        <div class="header">
+            <div class="logo">Logo</div>
+        </div>
 
-    <input type="text" id="roomId" placeholder="Room ID" />
-    <button id="joinRoom">Join Room</button>
-    <p>👋</p>
-    <p id="info"></p>
+        <div class="message">Create a session from <a href="https://slidecontroll.online" target="_blank"
+                class="website-link">slidecontroll.online</a></div>
+        <div class="sub-message">and paste it here to get started</div>
+
+        <div class="input-container">
+            <input type="text" id="sessionKey" placeholder="Enter Session Key">
+            <button id="joinSession">Join Session</button>
+        </div>
+    </div>
+
+    <div id="success-screen" class="container">
+        <div class="header">
+            <div class="logo">Logo</div>
+            <div class="status">
+                <div class="status-dot"></div>
+                <span class="status-text">Connected</span>
+            </div>
+        </div>
+
+        <div class="message">You are now connected</div>
+        <div class="sub-message">Head over to your remote controller and get the presentation started.</div>
+        <div class="encouragement">Wish you all the best, it will go well</div>
+    </div>
+
+    <div id="info"></div>
+
+    <script src="renderer.js"></script>
 </body>
-<script src="./renderer.js"></script>
 
 </html>
