@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SocketProvider } from "./providers/SocketProvider";
-import Home from "./pages/Home";
-import Room from "./pages/Room";
+import Home from "./pages/home";
+import Room from "./pages/room";
 
 function App() {
   return (
