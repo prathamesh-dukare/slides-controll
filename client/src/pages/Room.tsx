@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketContext";
 import { useEffect } from "react";
 import { SendCommand } from "../providers/SocketProvider";
+import { ControllerCombobox } from "../components/ui/Combobox";
 
 export default function Room() {
   const { roomId } = useParams();
@@ -71,7 +72,9 @@ export default function Room() {
         <p className="text-gray-600">{connectionStatus}</p>
 
         <div className="flex flex-col items-center gap-4">
-          <div className="grid grid-cols-3 gap-4 w-48">
+          <ControllerCombobox />
+
+          <div className="grid grid-cols-3 gap-4 w-48 justify-center mt-10">
             <div className="col-start-2">
               <button
                 onClick={() => sendCommand(SendCommand.UP)}
