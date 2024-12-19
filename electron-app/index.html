@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Controller</title>
+    <title>Slides Controller</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 20px;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             flex-direction: column;
         }
@@ -101,7 +102,8 @@
         button {
             padding: 12px 24px;
             font-size: 16px;
-            background-color: #4ade80;
+            font-weight: 500;
+            background-color: #22c55e;
             color: white;
             border: none;
             border-radius: 8px;
@@ -110,7 +112,7 @@
         }
 
         button:hover {
-            background-color: #22c55e;
+            background-color: #4ade80;
         }
 
         #join-screen {
@@ -119,7 +121,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 100vh;
+            /* min-height: 100vh; */
             padding: 20px;
         }
 
@@ -135,10 +137,107 @@
         .website-link:hover {
             text-decoration: underline;
         }
+
+        .quit-button {
+            background-color: #ef4444;
+            margin-top: 20px;
+        }
+
+        .quit-button:hover {
+            background-color: #dc2626;
+        }
+
+        .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .dialog-content {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .dialog-content h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .dialog-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .dialog-buttons button {
+            min-width: 100px;
+        }
+
+        #confirmQuit {
+            background-color: #ef4444;
+        }
+
+        #confirmQuit:hover {
+            background-color: #dc2626;
+        }
+
+        #cancelQuit {
+            background-color: #94a3b8;
+        }
+
+        #cancelQuit:hover {
+            background-color: #64748b;
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+            display: none;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #ef4444;
+            margin-top: 12px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .error-message svg {
+            width: 16px;
+            height: 16px;
+        }
     </style>
 </head>
 
 <body>
+
+    <!--* Join screen -->
     <div id="join-screen">
         <div class="header">
             <div class="logo">Logo</div>
@@ -146,14 +245,30 @@
 
         <div class="message">Create a session from <a href="https://slidecontroll.online" target="_blank"
                 class="website-link">slidecontroll.online</a></div>
-        <div class="sub-message">and paste it here to get started</div>
+        <div class="sub-message">and enter the session key here to get started</div>
 
-        <div class="input-container">
-            <input type="text" id="sessionKey" placeholder="Enter Session Key">
-            <button id="joinSession">Join Session</button>
+        <form class="input-container" id="joinForm">
+            <input type="text" id="sessionKey" placeholder="Enter Session Key" maxlength="6" minlength="6" required>
+            <button id="joinSession" type="submit">
+                <svg class="spinner" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="currentColor"
+                        d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z" />
+                </svg>
+                <span>Join Session</span>
+            </button>
+        </form>
+
+        <div id="errorMessage" class="error-message" style="padding: 12px 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                    clip-rule="evenodd" />
+            </svg>
+            <span></span>
         </div>
     </div>
 
+    <!--* success screen -->
     <div id="success-screen" class="container">
         <div class="header">
             <div class="logo">Logo</div>
@@ -165,7 +280,20 @@
 
         <div class="message">You are now connected</div>
         <div class="sub-message">Head over to your remote controller and get the presentation started.</div>
-        <div class="encouragement">Wish you all the best, it will go well</div>
+        <div class="encouragement">All the best 🤞</div>
+
+        <button id="quitSession" class="quit-button">Quit Session</button>
+
+        <div id="confirmDialog" class="dialog-overlay">
+            <div class="dialog-content">
+                <h2>Confirm Quit</h2>
+                <p>Are you sure you want to leave this session?</p>
+                <div class="dialog-buttons">
+                    <button id="confirmQuit">Yes, Quit</button>
+                    <button id="cancelQuit">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="info"></div>
