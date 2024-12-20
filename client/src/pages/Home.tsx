@@ -1,7 +1,6 @@
 import { Layout } from "../components/layout/Layout";
 import AccordionComponent from "../components/AccordionBox";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { Tooltip } from "../components/ui/tooltip";
 
 export default function Home() {
@@ -16,13 +15,13 @@ export default function Home() {
           Control with Ease
         </h1>
         <p className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl mx-auto">
-          Turn your phone or tablet into a powerful presentation tool. Start
-          presenting with confidence
+          Turn your phone, tablet or computer into a presentation remote. Roam
+          around and present with confidence.
         </p>
 
-        <div className="mt-10 flex items-center justify-center gap-x-6">
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-y-8 sm:gap-x-6">
           <button
-            onClick={() => navigate("/room")}
+            onClick={() => navigate("/session")}
             className="rounded-md bg-gray-900 px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
           >
             Start Presenting
@@ -70,7 +69,7 @@ export default function Home() {
                   <p className="mt-6">
                     <a
                       href="#"
-                      className="text-sm font-semibold leading-6 text-gray-900"
+                      className="text-sm font-semibold leading-6 text-gray-900 hover:underline"
                     >
                       Download for macOS <span aria-hidden="true">→</span>
                     </a>
@@ -78,7 +77,7 @@ export default function Home() {
                   <p className="mt-2">
                     <a
                       href="#"
-                      className="text-sm font-semibold leading-6 text-gray-900"
+                      className="text-sm font-semibold leading-6 text-gray-900 hover:underline"
                     >
                       Download for Windows <span aria-hidden="true">→</span>
                     </a>
@@ -93,18 +92,19 @@ export default function Home() {
                   </div>
                   Create Session
                 </dt>
+
                 <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
                   <p className="flex-auto">
                     Create a new session on this website from any device and get
                     your unique session key.
                   </p>
                   <p className="mt-6">
-                    <Link
-                      to="/room"
-                      className="text-sm font-semibold leading-6 text-gray-900"
+                    <button
+                      onClick={() => navigate("/session")}
+                      className="text-sm font-semibold leading-6 text-gray-900 hover:underline"
                     >
-                      Create session <span aria-hidden="true">→</span>
-                    </Link>
+                      Create Session <span aria-hidden="true">→</span>
+                    </button>
                   </p>
                 </dd>
               </div>
@@ -136,7 +136,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="mx-auto mt-16 max-w-2xl">
+          <div className="mx-auto mt-10 w-full max-w-5xl border-gray-200 rounded-lg p-4 sm:px-8 px-4">
             <AccordionComponent
               items={[
                 {
@@ -145,22 +145,30 @@ export default function Home() {
                     "No, you don't need to install anything on your phone or tablet. Simply open the web app in your browser to control presentations. The desktop app is only required on the computer where you'll be presenting.",
                 },
                 {
-                  title: "Is there a limit to presentation size?",
+                  title: "On which apps does this work?",
                   content:
-                    "There are no strict limits on presentation size. However, for optimal performance, we recommend keeping presentations under 100MB. The app supports most common presentation formats including PowerPoint, PDF, and Keynote files.",
+                    "This works on any app or website on your computer such as PowerPoint, Google Slides, Figma, Keynote, etc.",
                 },
                 {
-                  title: "Can I use this for online presentations?",
+                  title: "How secure is this?",
                   content:
-                    "Yes! Our tool works great for both in-person and online presentations. You can use it with any video conferencing software like Zoom, Teams, or Google Meet by sharing your screen as you normally would.",
+                    "This is secure, it just mimics the keyboard and mouse's behavior on your computer to control the presentation. We dont take access of any data from your computer. Also This tool is open source.",
+                },
+                {
+                  title: "Which platforms are supported?",
+                  content:
+                    "As of now, this works on macOS and Windows. (your remote is on the web)",
+                },
+                {
+                  title: "Can I connect with bluetooth?",
+                  content:
+                    "Not right now but Im working on it soon you will be able to connect via bluetooth for sure.",
                 },
               ]}
             />
           </div>
         </div>
       </div>
-
-      <footer className="fixed bottom-0 left-0 right-0 w-full mx-auto max-w-screen-sm pb-8"></footer>
     </Layout>
   );
 }

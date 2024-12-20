@@ -3,10 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketContext";
 import { useEffect, useState } from "react";
 import { SendCommand } from "../providers/SocketProvider";
+
 // import { ControllerCombobox, controllerTypes } from "../components/ComboBox";
 // import CarouselComponent from "../components/CarouselBox";
-export default function Room() {
-  const { roomId } = useParams();
+
+export default function Session() {
+  const { sessionId } = useParams();
   const navigate = useNavigate();
   const {
     createRoom,
@@ -24,9 +26,9 @@ export default function Room() {
   const [copied, setCopied] = useState(false);
 
   const copyRoomId = async () => {
-    if (!roomId) return;
+    if (!sessionId) return;
     try {
-      await navigator.clipboard.writeText(roomId);
+      await navigator.clipboard.writeText(sessionId);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
     } catch (err) {
@@ -36,12 +38,12 @@ export default function Room() {
 
   useEffect(() => {
     const initializeRoom = async () => {
-      if (roomId) {
-        connectToRoom(roomId, "host");
+      if (sessionId) {
+        connectToRoom(sessionId, "host");
       } else {
-        const newRoomId = await createRoom();
-        if (newRoomId) {
-          navigate(`/room/${newRoomId}`);
+        const newSessionId = await createRoom();
+        if (newSessionId) {
+          navigate(`/session/${newSessionId}`);
         }
       }
     };
@@ -53,7 +55,7 @@ export default function Room() {
         socket.disconnect();
       }
     };
-  }, [roomId]);
+  }, [sessionId]);
 
   useEffect(() => {
     if (import.meta.env.VITE_ENV === "development") {
@@ -99,7 +101,7 @@ export default function Room() {
           <div className="flex flex-col items-center gap-0">
             <div className="flex flex-wrap items-center gap-3 rounded-md px-4 py-2">
               <h2 className="text-xl sm:text-2xl font-semibold break-all">
-                Session ID: {roomId}
+                Session ID: {sessionId}
               </h2>
               {connectionMessage !== "Error: Session does not exist" && (
                 <button
