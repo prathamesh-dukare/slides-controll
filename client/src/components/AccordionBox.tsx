@@ -5,15 +5,24 @@ import {
   Accordion,
 } from "./ui/Accordion";
 
-export default function AccordionComponent() {
+interface AccordionProps {
+  items: {
+    title: string;
+    content: string;
+  }[];
+}
+
+const AccordionComponent: React.FC<AccordionProps> = ({ items }) => {
   return (
     <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
+      {items.map((item, index) => (
+        <AccordionItem value={`item-${index + 1}`} key={index}>
+          <AccordionTrigger>{item.title}</AccordionTrigger>
+          <AccordionContent>{item.content}</AccordionContent>
+        </AccordionItem>
+      ))}
     </Accordion>
   );
-}
+};
+
+export default AccordionComponent;
