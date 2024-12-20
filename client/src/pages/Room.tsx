@@ -8,8 +8,14 @@ import { SendCommand } from "../providers/SocketProvider";
 export default function Room() {
   const { roomId } = useParams();
   const navigate = useNavigate();
-  const { createRoom, connectToRoom, connectionStatus, socket, sendCommand } =
-    useSocket();
+  const {
+    createRoom,
+    connectToRoom,
+    connectionMessage,
+    socket,
+    sendCommand,
+    areBothConnected,
+  } = useSocket();
 
   // const [controllerType, setControllerType] = useState(
   //   controllerTypes[0].value
@@ -91,40 +97,60 @@ export default function Room() {
       <div className="flex flex-col gap-12 items-center">
         <div className="flex items-center gap-2">
           <div className="flex flex-col items-center gap-0">
-            <div className="flex items-center gap-3 rounded-md px-4 py-2">
-              <h2 className="text-2xl font-semibold">Session ID: {roomId}</h2>
-              <button
-                onClick={copyRoomId}
-                className="p-2 hover:bg-gray-100 rounded-md transition-colors"
-                title="Copy room ID"
-              >
-                {copied ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-600"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-600"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                    <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
-                  </svg>
-                )}
-              </button>
+            <div className="flex flex-wrap items-center gap-3 rounded-md px-4 py-2">
+              <h2 className="text-xl sm:text-2xl font-semibold break-all">
+                Session ID: {roomId}
+              </h2>
+              {connectionMessage !== "Error: Session does not exist" && (
+                <button
+                  onClick={copyRoomId}
+                  className="p-2 hover:bg-gray-100 rounded-md transition-colors shrink-0"
+                  title="Copy room ID"
+                >
+                  {copied ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-green-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                      <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                    </svg>
+                  )}
+                </button>
+              )}
             </div>
-            <p className="text-gray-600 mt-2">{connectionStatus}</p>
+
+            <div className="flex flex-col items-center gap-2 mt-2 ">
+              {connectionMessage !== "Error: Session does not exist" && (
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`w-3 h-3 rounded-full ${
+                      areBothConnected ? "bg-green-500" : "bg-gray-300"
+                    }`}
+                  />
+                  <p className="text-gray-600">
+                    {areBothConnected ? "Connected" : "Waiting for client..."}
+                  </p>
+                </div>
+              )}
+
+              <p className="text-gray-600">{connectionMessage}</p>
+            </div>
           </div>
         </div>
 
@@ -139,7 +165,12 @@ export default function Room() {
             <div className="col-start-2">
               <button
                 onClick={() => sendCommand(SendCommand.UP)}
-                className="w-14 h-14 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center"
+                disabled={!areBothConnected}
+                className={`w-14 h-14 bg-gray-200 rounded-lg flex items-center justify-center transform active:scale-90 transition-transform ${
+                  areBothConnected
+                    ? "hover:bg-gray-300"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +192,12 @@ export default function Room() {
             <div className="col-start-1 row-start-2">
               <button
                 onClick={() => sendCommand(SendCommand.LEFT)}
-                className="w-14 h-14 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center"
+                disabled={!areBothConnected}
+                className={`w-14 h-14 bg-gray-200 rounded-lg flex items-center justify-center transform active:scale-90 transition-transform ${
+                  areBothConnected
+                    ? "hover:bg-gray-300"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +219,12 @@ export default function Room() {
             <div className="col-start-3 row-start-2">
               <button
                 onClick={() => sendCommand(SendCommand.RIGHT)}
-                className="w-14 h-14 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center"
+                disabled={!areBothConnected}
+                className={`w-14 h-14 bg-gray-200 rounded-lg flex items-center justify-center transform active:scale-90 transition-transform ${
+                  areBothConnected
+                    ? "hover:bg-gray-300"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +246,12 @@ export default function Room() {
             <div className="col-start-2 row-start-3">
               <button
                 onClick={() => sendCommand(SendCommand.DOWN)}
-                className="w-14 h-14 bg-gray-200 hover:bg-gray-300 rounded-lg flex items-center justify-center"
+                disabled={!areBothConnected}
+                className={`w-14 h-14 bg-gray-200 rounded-lg flex items-center justify-center transform active:scale-90 transition-transform ${
+                  areBothConnected
+                    ? "hover:bg-gray-300"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
