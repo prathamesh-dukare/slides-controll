@@ -24,11 +24,32 @@ export function SocketProvider({ children }: SocketProviderProps) {
 
   const createRoom = async (): Promise<string | undefined> => {
     try {
-      const response = await fetch(`${API_SERVER_URL}/create`);
+      const response = await fetch(`${API_SERVER_URL}/create`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new TypeError("Response was not JSON");
+      }
+
       const data = await response.json();
       return data.roomId;
-    } catch (error) {
-      console.error("Error creating room", error);
+    } catch (error: unknown) {
+      console.error("Error creating room:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      setConnectionMessage(`Failed to create room: ${errorMessage}`);
+      return undefined;
     }
   };
 
@@ -41,7 +62,22 @@ export function SocketProvider({ children }: SocketProviderProps) {
       socket.disconnect();
     }
 
-    const newSocket = io(SOCKET_SIGNALING_SERVER_URL);
+    const newSocket = io(SOCKET_SIGNALING_SERVER_URL, {
+      transports: ["websocket", "polling"],
+      withCredentials: true,
+      forceNew: true,
+      timeout: 10000,
+    });
+
+    newSocket.on("connect", () => {
+      console.log("Socket connected successfully");
+    });
+
+    newSocket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+      setConnectionMessage(`Connection error: ${error.message}`);
+    });
+
     setSocket(newSocket);
     setRoomId(roomId);
 

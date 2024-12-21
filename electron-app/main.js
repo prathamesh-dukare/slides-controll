@@ -1,5 +1,9 @@
-if (require("electron-squirrel-startup")) app.quit();
+const path = require("node:path");
+require("dotenv").config({
+  path: path.resolve(__dirname, "../.env"),
+});
 
+if (require("electron-squirrel-startup")) app.quit();
 const {
   app,
   BrowserWindow,
@@ -8,10 +12,9 @@ const {
   systemPreferences,
 } = require("electron/main");
 const { keyboard, Key } = require("@nut-tree-fork/nut-js");
-const path = require("node:path");
 const { io } = require("socket.io-client");
 
-const socketServerURL = "http://localhost:3002";
+const socketServerURL = process.env.SOCKET_SERVER_URL;
 
 try {
   if (process.env.NODE_ENV === "development") {
@@ -52,7 +55,6 @@ const checkAccessibilityPermissions = async () => {
   }
 };
 
-// Modify the createWindow function
 const createWindow = async () => {
   await checkAccessibilityPermissions();
 
