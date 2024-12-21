@@ -2,14 +2,14 @@ import * as React from "react";
 import { Check, ChevronsUpDown, Command } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/Button";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/Popover";
 import {
   CommandEmpty,
   CommandInput,
   CommandItem,
   CommandList,
   CommandGroup,
-} from "./ui/command";
+} from "./ui/Command";
 
 export const controllerTypes = [
   {
