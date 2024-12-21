@@ -1,6 +1,12 @@
 if (require("electron-squirrel-startup")) app.quit();
 
-const { app, BrowserWindow, ipcMain, shell } = require("electron/main");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  systemPreferences,
+} = require("electron/main");
 const { keyboard, Key } = require("@nut-tree-fork/nut-js");
 const path = require("node:path");
 const { io } = require("socket.io-client");
@@ -21,8 +27,35 @@ try {
 let socket;
 let mainWindow;
 
-// create window util
-const createWindow = () => {
+const checkAccessibilityPermissions = async () => {
+  if (process.platform === "darwin") {
+    const hasPermission = systemPreferences.isTrustedAccessibilityClient(false);
+
+    if (!hasPermission) {
+      const { dialog } = require("electron");
+      const result = await dialog.showMessageBox({
+        type: "info",
+        title: "Accessibility Permissions Required",
+        message:
+          "This app needs accessibility permissions to function properly.",
+        detail:
+          "Please grant accessibility permissions in System Preferences when prompted.",
+        buttons: ["Open System Preferences", "Cancel"],
+        defaultId: 0,
+        cancelId: 1,
+      });
+
+      if (result.response === 0) {
+        systemPreferences.isTrustedAccessibilityClient(true);
+      }
+    }
+  }
+};
+
+// Modify the createWindow function
+const createWindow = async () => {
+  await checkAccessibilityPermissions();
+
   mainWindow = new BrowserWindow({
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -53,9 +86,22 @@ const createWindow = () => {
   });
 };
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  await createWindow();
+
   // join room handler
   ipcMain.handle("joinRoom", async (event, roomId) => {
+    if (
+      process.platform === "darwin" &&
+      !systemPreferences.isTrustedAccessibilityClient(false)
+    ) {
+      mainWindow.webContents.send("roomError", {
+        message:
+          "Accessibility permissions are required. Please grant permissions and try again.",
+      });
+      return;
+    }
+
     console.log(
       {
         roomId,
@@ -111,8 +157,6 @@ app.whenReady().then(() => {
     console.log(roomId, "quit room request");
     socket.disconnect();
   });
-
-  createWindow();
 
   app.on("activate", async () => {
     if (BrowserWindow.getAllWindows().length === 0) {
