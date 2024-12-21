@@ -83,4 +83,4 @@ You need to install Wine and Mono to make the desktop apps on macOs. You can get
 
 ## 🎉 Congratulations!
 
-You have successfully set up the Slide Control project. You can now use the web client to control your slides.
+You have successfully set up the Slide Control project

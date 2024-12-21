@@ -31,7 +31,7 @@ So, In the current implementation, I send commands from the web app via websocke
 - Sessions are stored in-memory at server which is not a good idea if this scales or users have longer sessions. Need to shift to something like Redis.
 - The window needs to be in focus.
 
-> ⚠️ Current versions of desktop apps is not code signed and hence might create some issue while installing them on your computers. (I will create a detailed guide on how to deal with this)
+> ⚠️ Current versions of desktop apps is not code signed and hence might create some issue while installing them on your computers. (I will create a detailed guide on why this happens and how to deal with this)
 
 ## Future scope of this project
 
