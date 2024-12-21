@@ -41,7 +41,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="how-it-works" className="py-24 bg-white">
+      <div id="how-it-works" className="py-24 bg-white rounded-lg px-3">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -160,9 +160,9 @@ export default function Home() {
                     "As of now, this works on macOS and Windows (your remote is on the web)",
                 },
                 {
-                  title: "Can I connect with bluetooth?",
+                  title: "Can I connect with bluetooth or local Wifi?",
                   content:
-                    "Not right now but Im working on it, soon you will be able to connect via bluetooth.",
+                    "Not right now but Im working on it, soon you will be able to connect via bluetooth or local Wifi.",
                 },
               ]}
             />
