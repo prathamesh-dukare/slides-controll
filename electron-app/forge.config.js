@@ -4,31 +4,62 @@ const { FuseV1Options, FuseVersion } = require("@electron/fuses");
 module.exports = {
   packagerConfig: {
     asar: true,
-    osxSign: {},
-    osxNotarize: {
-      tool: "notarytool",
-      appleId: process.env.APPLE_ID,
-      appleIdPassword: process.env.APPLE_PASSWORD,
-      teamId: process.env.APPLE_TEAM_ID,
-    },
+    arch: ["x64"],
+    platforms: ["win32", "darwin", "linux"],
+    executableName: "SlideControl",
   },
   rebuildConfig: {},
   makers: [
+    // todo: fix win-stable secure installation and rebuild with squirrel config
+    // {
+    //   name: "@electron-forge/maker-squirrel",
+    //   config: {
+    //     name: "slide-control",
+    //     authors: "Prathamesh Dukare",
+    //     exe: "slide-control.exe",
+    //   },
+    // },
     {
-      name: "@electron-forge/maker-squirrel",
-      config: {},
+      name: "@electron-forge/maker-zip",
+      platforms: ["win32"],
+      config: {
+        name: "SlideControl",
+      },
     },
     {
       name: "@electron-forge/maker-zip",
       platforms: ["darwin"],
+      config: {
+        name: "SlideControl",
+      },
+    },
+    {
+      name: "@electron-forge/maker-dmg",
+      config: {
+        format: "ULFO",
+        name: "SlideControl",
+        icon: "./public/logo.svg",
+      },
     },
     {
       name: "@electron-forge/maker-deb",
-      config: {},
+      config: {
+        options: {
+          maintainer: "Prathamesh Dukare",
+          homepage: "https://github.com/prathamesh-dukare/slide-control",
+          icon: "./public/logo.svg",
+        },
+      },
     },
     {
       name: "@electron-forge/maker-rpm",
-      config: {},
+      config: {
+        options: {
+          maintainer: "Prathamesh Dukare",
+          homepage: "https://github.com/prathamesh-dukare/slide-control",
+          icon: "./public/logo.svg",
+        },
+      },
     },
   ],
   plugins: [
@@ -36,8 +67,6 @@ module.exports = {
       name: "@electron-forge/plugin-auto-unpack-natives",
       config: {},
     },
-    // Fuses are used to enable/disable various Electron functionality
-    // at package time, before code signing the application
     new FusesPlugin({
       version: FuseVersion.V1,
       [FuseV1Options.RunAsNode]: false,

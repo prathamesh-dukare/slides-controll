@@ -19,7 +19,8 @@ export enum SendCommand {
 export function SocketProvider({ children }: SocketProviderProps) {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [roomId, setRoomId] = useState("");
-  const [connectionStatus, setConnectionStatus] = useState("");
+  const [connectionMessage, setConnectionMessage] = useState("");
+  const [areBothConnected, setAreBothConnected] = useState(false);
 
   const createRoom = async (): Promise<string | undefined> => {
     try {
@@ -51,20 +52,28 @@ export function SocketProvider({ children }: SocketProviderProps) {
         [
           "room-joined",
           (data: any) => {
-            setConnectionStatus(`Joined as ${data.role}`);
+            setConnectionMessage(`Joined as ${data.role}`);
           },
         ],
         [
           "client-connected",
           () => {
-            setConnectionStatus("Client connected to the room");
+            setConnectionMessage("Client connected to the room");
+            setAreBothConnected(true);
+          },
+        ],
+        [
+          "client-disconnected",
+          () => {
+            setConnectionMessage("Client disconnected from the room");
+            setAreBothConnected(false);
           },
         ],
         [
           "room-error",
           (error: any) => {
-            console.error("Room error:", error);
-            setConnectionStatus(`Error: ${error}`);
+            console.error("Session error:", error);
+            setConnectionMessage(`Error: ${error}`);
           },
         ],
       ] as const;
@@ -98,10 +107,11 @@ export function SocketProvider({ children }: SocketProviderProps) {
   const socketValue = {
     socket,
     roomId,
-    connectionStatus,
+    connectionMessage,
     createRoom,
     connectToRoom,
     sendCommand,
+    areBothConnected,
   };
 
   return (

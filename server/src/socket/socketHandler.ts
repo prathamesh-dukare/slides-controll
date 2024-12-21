@@ -12,7 +12,7 @@ export const initializeSocket = (io: Server) => {
         const room = rooms.get(roomId)
 
         if (!room) {
-          socket.emit('room-error', 'Room does not exist')
+          socket.emit('room-error', 'Session does not exist')
           return
         }
 
@@ -25,6 +25,10 @@ export const initializeSocket = (io: Server) => {
           room.host = socket.id
           room.hostSocket = socket
           socket.emit('room-joined', { role: 'host' }) // notifying host
+
+          if (room.clientSocket) {
+            room.hostSocket.emit('client-connected')
+          }
         } else {
           // todo: same as above
           //   if (room.client) {
@@ -63,7 +67,7 @@ export const initializeSocket = (io: Server) => {
     socket.on('disconnect', () => {
       console.log('Client disconnected:', socket.id)
       for (const [roomId, room] of rooms.entries()) {
-        console.log('room data', room.host, room.client)
+        // console.log('room data', room.host, room.client)
         if (room.host === socket.id) {
           if (room.clientSocket) {
             room.clientSocket.emit('host-disconnected')

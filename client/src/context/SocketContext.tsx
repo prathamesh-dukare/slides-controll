@@ -5,10 +5,11 @@ import { SendCommand } from "../providers/SocketProvider";
 interface SocketContextType {
   socket: Socket | null;
   roomId: string;
-  connectionStatus: string;
+  connectionMessage: string;
   createRoom: () => Promise<string | undefined>;
   connectToRoom: (roomId: string, type: "host") => (() => void) | undefined;
   sendCommand: (command: SendCommand) => void;
+  areBothConnected: boolean;
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
