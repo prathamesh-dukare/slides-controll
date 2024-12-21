@@ -6,6 +6,7 @@
     "start": "node dist/index.js",
     "build": "tsc",
     "dev": "clear && nodemon src/index.ts",
+    "postinstall": "npm run build",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint:check": "eslint .",
@@ -39,5 +40,8 @@
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
