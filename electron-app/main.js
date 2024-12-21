@@ -3,6 +3,8 @@ const { keyboard, Key } = require("@nut-tree-fork/nut-js");
 const path = require("node:path");
 const { io } = require("socket.io-client");
 
+const socketServerURL = "http://localhost:3002";
+
 try {
   if (process.env.NODE_ENV === "development") {
     require("electron-reloader")(module, {
@@ -30,7 +32,9 @@ const createWindow = () => {
     minHeight: 600,
   });
 
-  mainWindow.webContents.openDevTools();
+  if (process.env.NODE_ENV === "development") {
+    mainWindow.webContents.openDevTools();
+  }
 
   mainWindow.loadFile("index.html");
 
@@ -47,7 +51,6 @@ const createWindow = () => {
   });
 };
 
-// on app ready
 app.whenReady().then(() => {
   // join room handler
   ipcMain.handle("joinRoom", async (event, roomId) => {
@@ -59,7 +62,7 @@ app.whenReady().then(() => {
       "join room request"
     );
 
-    socket = io("http://localhost:3002", {
+    socket = io(socketServerURL, {
       reconnection: true,
     });
 
@@ -79,11 +82,6 @@ app.whenReady().then(() => {
 
     socket.on("device-command", async (command) => {
       console.log(command, "received");
-
-      setInterval(async () => {
-        await keyboard.pressKey(Key.Left);
-        await keyboard.releaseKey(Key.Left);
-      }, 5000);
 
       switch (command) {
         case "left":

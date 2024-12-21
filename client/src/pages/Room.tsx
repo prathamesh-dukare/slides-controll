@@ -16,10 +16,6 @@ export default function Session() {
     areBothConnected,
   } = useSocket();
 
-  // const [controllerType, setControllerType] = useState(
-  //   controllerTypes[0].value
-  // );
-
   const [copied, setCopied] = useState(false);
 
   const copyRoomId = async () => {
@@ -104,7 +100,7 @@ export default function Session() {
                 {connectionMessage !== "Error: Session does not exist" && (
                   <button
                     onClick={copyRoomId}
-                    className="p-2 hover:bg-gray-100 rounded-md transition-colors shrink-0"
+                    className="p-2 hover:bg-gray-200 rounded-md transition-colors shrink-0 bg-gray-100"
                     title="Copy room ID"
                   >
                     {copied ? (

@@ -36,6 +36,20 @@
         .logo {
             font-weight: bold;
             font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo span {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .logo img {
+            height: 27px;
+            width: auto;
+
         }
 
         .status {
@@ -130,7 +144,7 @@
         }
 
         .website-link {
-            color: #4ade80;
+            color: #000000;
             text-decoration: none;
         }
 
@@ -239,13 +253,16 @@
 
     <!--* Join screen -->
     <div id="join-screen">
-        <div class="header">
-            <div class="logo">Logo</div>
-        </div>
+        <nav class="header">
+            <div class="logo">
+                <img src="public/logo.svg" alt="Slides Controller Logo">
+                <span>Slide Control</span>
+            </div>
+        </nav>
 
-        <div class="message">Create a session from <a href="https://slidecontroll.online" target="_blank"
+        <div class="message">Enter the session key to get started</div>
+        <div class="sub-message">Create a session from <a href="https://slidecontroll.online" target="_blank"
                 class="website-link">slidecontroll.online</a></div>
-        <div class="sub-message">and enter the session key here to get started</div>
 
         <form class="input-container" id="joinForm">
             <input type="text" id="sessionKey" placeholder="Enter Session Key" maxlength="6" minlength="6" required>
@@ -271,16 +288,19 @@
     <!--* success screen -->
     <div id="success-screen" class="container">
         <div class="header">
-            <div class="logo">Logo</div>
+            <div class="logo">
+                <img src="public/logo.svg" alt="Slides Controller Logo">
+                <span>Slide Control</span>
+            </div>
             <div class="status">
                 <div class="status-dot"></div>
                 <span class="status-text">Connected</span>
             </div>
         </div>
 
-        <div class="message">You are now connected</div>
-        <div class="sub-message">Head over to your remote controller and get the presentation started.</div>
-        <div class="encouragement">All the best 🤞</div>
+        <div class="message">Ready to control</div>
+        <div class="sub-message">Use your remote controller to navigate through the slides</div>
+        <div class="encouragement">Good luck with your presentation! 🎯</div>
 
         <button id="quitSession" class="quit-button">Quit Session</button>
 
