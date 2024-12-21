@@ -6,7 +6,7 @@ module.exports = {
     asar: true,
     arch: ["x64"],
     platforms: ["win32", "darwin", "linux"],
-    executableName: "slide-control",
+    executableName: "SlideControl",
   },
   rebuildConfig: {},
   makers: [
@@ -22,10 +22,16 @@ module.exports = {
     {
       name: "@electron-forge/maker-zip",
       platforms: ["win32"],
+      config: {
+        name: "SlideControl",
+      },
     },
     {
       name: "@electron-forge/maker-zip",
       platforms: ["darwin"],
+      config: {
+        name: "SlideControl",
+      },
     },
     {
       name: "@electron-forge/maker-dmg",

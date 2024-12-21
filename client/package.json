@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "slides-control-web-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",

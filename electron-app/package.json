@@ -1,5 +1,5 @@
 {
-  "name": "my-electron-app",
+  "name": "slides-control-app",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -7,7 +7,9 @@
     "dev": "cross-env NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "make:win": "electron-forge make --platform win32"
+    "make:win": "electron-forge make --platform win32",
+    "make:mac": "electron-forge make --platform darwin",
+    "make:linux": "electron-forge make --platform linux"
   },
   "author": "Prathamesh Dukare",
   "license": "ISC",
