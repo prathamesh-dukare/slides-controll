@@ -93,65 +93,78 @@ export default function Session() {
 
   return (
     <Layout>
-      <div className="flex flex-col gap-12 items-center">
-        <div className="flex items-center gap-2">
-          <div className="flex flex-col items-center gap-0">
-            <div className="flex flex-wrap items-center gap-3 rounded-md px-4 py-2">
-              <h2 className="text-xl sm:text-2xl font-semibold break-all">
-                Session ID: {sessionId}
-              </h2>
-              {connectionMessage !== "Error: Session does not exist" && (
-                <button
-                  onClick={copyRoomId}
-                  className="p-2 hover:bg-gray-100 rounded-md transition-colors shrink-0"
-                  title="Copy room ID"
-                >
-                  {copied ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-green-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                      <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
-                    </svg>
-                  )}
-                </button>
-              )}
-            </div>
+      <div className="flex flex-col gap-12 items-center mt-10">
+        {sessionId ? (
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center gap-0">
+              <div className="flex flex-wrap items-center gap-3 rounded-md px-4 py-2">
+                <h2 className="text-xl sm:text-2xl font-semibold break-all">
+                  Session ID: {sessionId}
+                </h2>
+                {connectionMessage !== "Error: Session does not exist" && (
+                  <button
+                    onClick={copyRoomId}
+                    className="p-2 hover:bg-gray-100 rounded-md transition-colors shrink-0"
+                    title="Copy room ID"
+                  >
+                    {copied ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-green-600"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-gray-600"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                      </svg>
+                    )}
+                  </button>
+                )}
+              </div>
 
-            <div className="flex flex-col items-center gap-2 mt-2 ">
-              {connectionMessage !== "Error: Session does not exist" && (
-                <div className="flex items-center gap-2">
-                  <div
-                    className={`w-3 h-3 rounded-full ${
-                      areBothConnected ? "bg-green-500" : "bg-gray-300"
-                    }`}
-                  />
-                  <p className="text-gray-600">
-                    {areBothConnected ? "Connected" : "Waiting for client..."}
-                  </p>
-                </div>
-              )}
+              <div className="flex flex-col items-center gap-2 mt-2 ">
+                {connectionMessage !== "Error: Session does not exist" && (
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-3 h-3 rounded-full ${
+                        areBothConnected ? "bg-green-500" : "bg-gray-300"
+                      }`}
+                    />
+                    <p className="text-gray-600 text-lg">
+                      {areBothConnected ? "Connected" : "Waiting for client..."}
+                    </p>
+                  </div>
+                )}
 
-              <p className="text-gray-600">{connectionMessage}</p>
+                <p className="text-gray-600 text-lg py-3">
+                  {connectionMessage}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col items-center gap-4">
+            <h2 className="text-2xl font-semibold text-red-600">
+              Invalid Session
+            </h2>
+            <p className="text-gray-600">
+              This session does not exist or has expired.
+            </p>
+          </div>
+        )}
 
         <div className="flex flex-col items-center gap-4">
           {/* TODO: Add controller */}
