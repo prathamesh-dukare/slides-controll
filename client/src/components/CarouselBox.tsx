@@ -1,11 +1,11 @@
-import { Card, CardContent } from "./ui/Card";
+import { Card, CardContent } from "./molecules/Card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "./ui/Carousel";
+} from "./molecules/Carousel";
 
 export default function CarouselComponent() {
   return (

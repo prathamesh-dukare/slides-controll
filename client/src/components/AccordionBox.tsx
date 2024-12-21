@@ -3,7 +3,7 @@ import {
   AccordionTrigger,
   AccordionContent,
   Accordion,
-} from "./ui/Accordion";
+} from "./molecules/Accordion";
 
 interface AccordionProps {
   items: {

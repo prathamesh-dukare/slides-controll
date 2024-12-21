@@ -1,7 +1,7 @@
 import { Layout } from "../components/layout/Layout";
 import AccordionComponent from "../components/AccordionBox";
 import { useNavigate } from "react-router-dom";
-import { Tooltip } from "../components/ui/Tooltip";
+import { Tooltip } from "../components/molecules/Tooltip";
 
 export default function Home() {
   const navigate = useNavigate();
