@@ -68,7 +68,8 @@ export default function Home() {
                   </p>
                   <p className="mt-6">
                     <a
-                      href="#"
+                      href="https://github.com/prathamesh-dukare/slides-controll/releases/tag/MacOS-beta-arm64"
+                      target="_blank"
                       className="text-sm font-semibold leading-6 text-gray-900 hover:underline"
                     >
                       Download for macOS <span aria-hidden="true">→</span>
@@ -76,7 +77,8 @@ export default function Home() {
                   </p>
                   <p className="mt-2">
                     <a
-                      href="#"
+                      href="https://github.com/prathamesh-dukare/slides-controll/releases/tag/windows-beta-arm64"
+                      target="_blank"
                       className="text-sm font-semibold leading-6 text-gray-900 hover:underline"
                     >
                       Download for Windows <span aria-hidden="true">→</span>
