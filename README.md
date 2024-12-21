@@ -20,13 +20,15 @@ This uses websockets as a main communication channel between the web and the des
 
 In the RnD, I experemented controlling the computer using a chrome extension, but I failed at it due to restrictions. One drawback was that we cant access anything outside the browser. I knew that I have to use a desktop app to have more freedom to do things and Electron was the obvious choice considering the timing and tech stack.
 
-So, In the current implementation, I send commands from the web app via websocket to the desktop app (routed via server). According to the command, the NodeJS mimics the behaviour of keyboard arrow keys. I use a fork of nut-js for this purpose as nutjs is no longer free. The authors have given permission for creating and distributing forks [read more](https://nutjs.dev/blog/i-give-up)
+So, In the current implementation, I send commands from the web app via websocket to the desktop app (routed via server). According to the command, the NodeJS mimics the behaviour of keyboard arrow keys. I use a fork of nut-js for this purpose as nutjs is no longer free. The authors have given permission for creating and distributing forks [read more](https://nutjs.dev/blog/i-give-up).
 
 ## 🚧 Issues in current implementation
 
 - Socket routing causing little bit of latency
 - Not able to connect with local networks such as Bluetooth or Wifi
 - Sessions are stored in-memory at server which is not a good idea if this scales or users have longer sessions. I will shift to something like Redis.
+
+> ⚠️ Current versions of desktop apps is not code signed and hence might create some issue while installing them on your computers. (I will create a detailed guide on how to deal with this)
 
 ## 🔮 Future scope of this project
 
