@@ -7,6 +7,7 @@ import roomRoutes from './routes/roomRoutes'
 import { initializeSocket } from './socket/socketHandler'
 import dotenv from 'dotenv'
 import path from 'path'
+import morgan from 'morgan'
 
 dotenv.config({ path: path.join(__dirname, '../../.env') })
 
@@ -23,6 +24,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(express.json())
 
 // rate limiter
