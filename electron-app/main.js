@@ -14,7 +14,7 @@ const {
 const { keyboard, Key } = require("@nut-tree-fork/nut-js");
 const { io } = require("socket.io-client");
 
-const socketServerURL = process.env.SOCKET_SERVER_URL;
+const socketServerURL = process.env.VITE_SOCKET_SERVER_URL;
 
 try {
   if (process.env.NODE_ENV === "development") {
