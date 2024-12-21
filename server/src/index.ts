@@ -17,7 +17,7 @@ const httpServer = createServer(app)
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',')
 
 const corsOptions = {
-  origin: '*',
+  origin: ALLOWED_ORIGINS,
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
