@@ -6,14 +6,16 @@
     "start": "electron-forge start",
     "dev": "cross-env NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "make:win": "electron-forge make --platform win32"
   },
-  "author": "",
+  "author": "Prathamesh Dukare",
   "license": "ISC",
-  "description": "",
+  "description": "SlideControl, controller for presentations",
   "devDependencies": {
     "@electron-forge/cli": "^7.6.0",
     "@electron-forge/maker-deb": "^7.6.0",
+    "@electron-forge/maker-dmg": "^7.6.0",
     "@electron-forge/maker-rpm": "^7.6.0",
     "@electron-forge/maker-squirrel": "^7.6.0",
     "@electron-forge/maker-zip": "^7.6.0",

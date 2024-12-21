@@ -1,3 +1,5 @@
+if (require("electron-squirrel-startup")) app.quit();
+
 const { app, BrowserWindow, ipcMain, shell } = require("electron/main");
 const { keyboard, Key } = require("@nut-tree-fork/nut-js");
 const path = require("node:path");
