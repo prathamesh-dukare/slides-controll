@@ -1,6 +1,6 @@
 # Slide Control
 
-> A remote on web to control to your presentations
+> A remote on web to control your presentations
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/Prathamesh-Dukare)
 
@@ -8,7 +8,7 @@
 
 Slide controll is a tool with which you can controll your presentations from your phone, tablet or any other computer.
 
-How to use guide is available [here](https://peerlist.io/prathamesh/articles/peerlist-hackathon-project-demo).
+How to use Guide/Demo is available [here](https://peerlist.io/prathamesh/articles/peerlist-hackathon-project-demo).
 
 ## Tech Stack
 
