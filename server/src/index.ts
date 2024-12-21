@@ -5,16 +5,21 @@ import cors from 'cors'
 import rateLimit from 'express-rate-limit'
 import roomRoutes from './routes/roomRoutes'
 import { initializeSocket } from './socket/socketHandler'
+import dotenv from 'dotenv'
+import path from 'path'
+
+dotenv.config({ path: path.join(__dirname, '../../.env') })
 
 const app = express()
 const httpServer = createServer(app)
 
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',')
+
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === 'production'
-      ? process.env.CLIENT_URL
-      : 'http://localhost:5173',
-  methods: ['GET', 'POST'],
+  origin: ALLOWED_ORIGINS,
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }
 
 app.use(cors(corsOptions))
@@ -42,9 +47,13 @@ app.use('/api/v1/room', strictLimiter, roomRoutes)
 
 const io = new Server(httpServer, {
   cors: {
-    origin: '*',
+    origin: ALLOWED_ORIGINS,
     methods: ['GET', 'POST'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   },
+  transports: ['websocket', 'polling'],
+  allowEIO3: true,
 })
 
 // init socket handler
