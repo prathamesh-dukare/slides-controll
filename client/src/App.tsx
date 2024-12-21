@@ -10,7 +10,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/session" element={<Room />} />
-          <Route path="/session/:roomId" element={<Room />} />
+          <Route path="/session/:sessionId" element={<Room />} />
         </Routes>
       </BrowserRouter>
     </SocketProvider>

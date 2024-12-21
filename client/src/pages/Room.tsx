@@ -4,9 +4,6 @@ import { useSocket } from "../context/SocketContext";
 import { useEffect, useState } from "react";
 import { SendCommand } from "../providers/SocketProvider";
 
-// import { ControllerCombobox, controllerTypes } from "../components/ComboBox";
-// import CarouselComponent from "../components/CarouselBox";
-
 export default function Session() {
   const { sessionId } = useParams();
   const navigate = useNavigate();
@@ -30,7 +27,7 @@ export default function Session() {
     try {
       await navigator.clipboard.writeText(sessionId);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
     }
