@@ -157,12 +157,12 @@ export default function Home() {
                 {
                   title: "Which platforms are supported?",
                   content:
-                    "As of now, this works on macOS and Windows. (your remote is on the web)",
+                    "As of now, this works on macOS and Windows (your remote is on the web)",
                 },
                 {
                   title: "Can I connect with bluetooth?",
                   content:
-                    "Not right now but Im working on it soon you will be able to connect via bluetooth for sure.",
+                    "Not right now but Im working on it, soon you will be able to connect via bluetooth.",
                 },
               ]}
             />
