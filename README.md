@@ -27,19 +27,19 @@ So, In the current implementation, I send commands from the web app via websocke
 ## Issues / limitations in current implementation
 
 - Socket routing causing little bit of latency
-- Not able to connect with local networks such as Bluetooth or Wifi
 - Sessions are stored in-memory at server which is not a good idea if this scales or users have longer sessions. Need to shift to something like Redis.
-- The window needs to be in focus.
+- The window needs to be an active window.
 
 > ⚠️ Current versions of desktop apps is not code signed and hence might create some issue while installing them on your computers. (I will create a detailed guide on why this happens and how to deal with this)
 
 ## Future scope of this project
 
 - Add support for local networks such as Bluetooth or Wifi
+- Control with the volume buttons of a mobile phone and add a slider for improved UX
 - Switch to Redis for storing sessions
-- Explore more sophisticated technologies such as webRTC, local-networks to reduce the latency
+- Explore more sophisticated technologies such as webRTC to reduce the latency
 
-> I see this project going in the direction of solving multiple small use cases, such as **media control**, **presentation control**, etc. I will see how this goes and accordingly make it better. If you have any suggestions or feedback, please let me know.
+> I see this project going in the direction of solving multiple small use cases, such as **media control**, **presentation control**, etc. I will see how this goes and make it better accordingly. If you have any suggestions or feedback, please let me know.
 
 ## Contributing
 
