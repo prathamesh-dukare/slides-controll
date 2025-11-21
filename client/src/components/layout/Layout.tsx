@@ -45,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </a>
 
           <a
-            href="https://x.com/prathameshtwits"
+            href="https://x.com/prathameshOnX"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900"
